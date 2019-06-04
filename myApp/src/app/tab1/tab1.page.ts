@@ -9,7 +9,12 @@ import {BackgroundGeolocation, BackgroundGeolocationConfig, BackgroundGeolocatio
 })
 export class Tab1Page {
   @ViewChild('map') mapContainer: ElementRef;
+  firstpolyline = new leaflet.Polyline({});
+
   constructor(private backgroundGeolocation: BackgroundGeolocation) {
+    this.firstpolyline.setStyle({
+      color: 'red'
+    });
   }
 
   startBackgroundGeolocation() {
@@ -26,9 +31,11 @@ export class Tab1Page {
       this.backgroundGeolocation
           .on(BackgroundGeolocationEvents.location)
           .subscribe((location: BackgroundGeolocationResponse) => {
+            this.firstpolyline.addLatLng([location.latitude, location.longitude]);
             // IMPORTANT:  You must execute the finish method here to inform the native plugin that you're finished,
             // and the background-task may be completed.  You must do this regardless if your operations are successful or not.
             // IF YOU DON'T, ios will CRASH YOUR APP for spending too much time in the background.
+            this.backgroundGeolocation.finish();
           });
     }).catch((err) => {
       console.error(err);
@@ -43,19 +50,24 @@ export class Tab1Page {
   }
 
   loadmap() {
+    let first = true;
     const map = leaflet.map('map').fitWorld();
     leaflet.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       attributions: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>',
       maxZoom: 18
     }).addTo(map);
     const marker = leaflet.marker(map.getCenter()).addTo(map);
+    this.firstpolyline.addTo(map);
     map.locate({
-      setView: true,
+      setView: false,
       watch: true,
       maxZoom: 10
     }).on('locationfound', (e) => {
+      if (first) {
+        first = false;
+        map.setView(e.latlng, 16);
+      }
       marker.setLatLng(e.latlng);
-      map.setView(marker.getLatLng(), 10);
     }).on('locationerror', (err) => {
       alert(err.message);
     });
