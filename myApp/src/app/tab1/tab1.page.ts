@@ -10,7 +10,6 @@ import {BackgroundGeolocation, BackgroundGeolocationConfig, BackgroundGeolocatio
 })
 export class Tab1Page {
   @ViewChild('map') mapContainer: ElementRef;
-  firstpolyline = new leaflet.Polyline({});
   polylines = [];
   count;
   addedPoly = false;
@@ -33,9 +32,7 @@ export class Tab1Page {
       this.backgroundGeolocation
           .on(BackgroundGeolocationEvents.location)
           .subscribe((location: BackgroundGeolocationResponse) => {
-            if (!this.stop) {
-              this.polylines[this.polylines.length - 1].addLatLng([location.latitude, location.longitude]);
-            }
+            this.polylines[this.polylines.length - 1].addLatLng([location.latitude, location.longitude]);
             // IMPORTANT:  You must execute the finish method here to inform the native plugin that you're finished,
             // and the background-task may be completed.  You must do this regardless if your operations are successful or not.
             // IF YOU DON'T, ios will CRASH YOUR APP for spending too much time in the background.
@@ -64,8 +61,7 @@ export class Tab1Page {
       maxZoom: 18
     }).addTo(this.map);
     const marker = leaflet.marker(this.map.getCenter()).addTo(this.map);
-    this.firstpolyline.addTo(this.map);
-    this.polylines.push(this.firstpolyline);
+    this.addPolyline(false);
     this.map.locate({
       setView: false,
       watch: true,
@@ -93,7 +89,9 @@ export class Tab1Page {
     }
     const count = setInterval(() => {
       if (!this.stop) {
-        this.addedPoly = false;
+        if (!this.addedPoly) {
+          this.addPolyline(false);
+        }
         if (down) {
           final.setSeconds(final.getSeconds() - 1);
         } else {
@@ -107,10 +105,7 @@ export class Tab1Page {
         }
       } else {
         if (!this.addedPoly) {
-          const polyline = new leaflet.Polyline({});
-          polyline.addTo(this.map);
-          this.polylines.push(polyline);
-          this.addedPoly = true;
+          this.addPolyline(true);
         }
       }
     }, 1000);
@@ -118,5 +113,16 @@ export class Tab1Page {
 
   pause() {
     this.stop = !this.stop;
+    this.addedPoly = false;
+  }
+
+  addPolyline(isPause) {
+    const polyline = new leaflet.Polyline({});
+    if (isPause) {
+      polyline.setStyle({color: 'green', fill: 'none', dashArray: '10, 20'});
+    }
+    polyline.addTo(this.map);
+    this.polylines.push(polyline);
+    this.addedPoly = true;
   }
 }
