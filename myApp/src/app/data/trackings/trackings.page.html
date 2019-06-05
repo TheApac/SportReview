@@ -1,0 +1,25 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Trackings</ion-title>
+    {{test}}
+    <ion-list>
+      <ion-item *ngFor="let track of trackings">
+        <ion-label>id</ion-label>
+        <ion-input>{{track.id}}</ion-input>
+
+        <ion-label>positionId</ion-label>
+        <ion-input>{{track.positionId}}</ion-input>
+
+        <ion-label>date</ion-label>
+        <ion-input>{{track.date}}</ion-input>
+
+        <ion-label>trainingId</ion-label>
+        <ion-input>{{track.trainingId}}</ion-input>
+      </ion-item>
+    </ion-list>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+</ion-content>

@@ -35,6 +35,15 @@ const routes: Routes = [
         ]
       },
       {
+        path: 'trackings',
+        children: [
+          {
+            path: '',
+            loadChildren: '../data/trackings/trackings.module#TrackingsPageModule'
+          }
+        ]
+      },
+      {
         path: '',
         redirectTo: '/tabs/tab1',
         pathMatch: 'full'
