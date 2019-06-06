@@ -6,46 +6,40 @@ DROP TABLE IF EXISTS Tracking;
 DROP TABLE IF EXISTS Position;
 DROP TABLE IF EXISTS Segment_Tracking;
 
-CREATE TABLE IF NOT EXISTS Position
-(id LONG NOT NULL AUTOINCREMENT,
+CREATE TABLE Position
+(id INTEGER PRIMARY KEY,
 latitude DOUBLE,
 longitude DOUBLE,
-altitude DOUBLE,
-PRIMARY KEY (id));
+altitude DOUBLE);
 
-CREATE TABLE IF NOT EXISTS Training
-(id LONG NOT NULL AUTOINCREMENT,
+CREATE TABLE Training
+(id INTEGER PRIMARY KEY,
 sport VARCHAR(50),
 status BOOLEAN,
-type VARCHAR(50),
-PRIMARY KEY (id));
+type VARCHAR(50));
 
-CREATE TABLE IF NOT EXISTS Tracking
-(id LONG NOT NULL AUTOINCREMENT,
+CREATE TABLE Tracking
+(id INTEGER PRIMARY KEY,
 positionId LONG,
 date DATETIME,
 trainingId LONG,
-PRIMARY KEY (id));
+FOREIGN KEY(positionId) REFERENCES Position(id),
+FOREIGN KEY(trainingId) REFERENCES Training(id));
 
-
-CREATE TABLE IF NOT EXISTS Segment
-(id LONG NOT NULL AUTOINCREMENT,
+CREATE TABLE Segment
+(id INTEGER PRIMARY KEY,
 type VARCHAR(50),
 trainingId LONG,
 distanceValue LONG,
 durationValue LONG,
-PRIMARY KEY (id));
+FOREIGN KEY(trainingId) REFERENCES Training(id));
 
-CREATE TABLE IF NOT EXISTS Segment_Tracking
+CREATE TABLE Segment_Tracking
 (segmentId LONG NOT NULL,
 trackingId LONG NOT NULL,
+FOREIGN KEY(segmentId) REFERENCES Segment(id),
+FOREIGN KEY(trackingId) REFERENCES Tracking(id)
 PRIMARY KEY (segmentId, trackingId));
-
-ALTER TABLE Tracking ADD CONSTRAINT FOREIGN KEY(positionId) REFERENCES Position(id);
-ALTER TABLE Tracking ADD CONSTRAINT FOREIGN KEY(trainingId) REFERENCES Training(id);
-ALTER TABLE Segment ADD CONSTRAINT FOREIGN KEY(trainingId) REFERENCES Training(id);
-ALTER TABLE Segment_Tracking ADD CONSTRAINT FOREIGN KEY(segmentId) REFERENCES Segment(id);
-ALTER TABLE Segment_Tracking ADD CONSTRAINT FOREIGN KEY(trackingId) REFERENCES Tracking(id);
 
 INSERT or IGNORE INTO Position (latitude, longitude, altitude) VALUES
 (45.758387, 4.854627, 0),
