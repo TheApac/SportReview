@@ -2,7 +2,7 @@ import {Component, ElementRef, ViewChild} from '@angular/core';
 import leaflet from 'leaflet';
 import {BackgroundGeolocation, BackgroundGeolocationConfig, BackgroundGeolocationResponse,
   BackgroundGeolocationEvents} from '@ionic-native/background-geolocation/ngx';
-
+import { LocalNotifications } from '@ionic-native/local-notifications/ngx';
 @Component({
   selector: 'app-tab1',
   templateUrl: 'tab1.page.html',
@@ -24,7 +24,7 @@ export class Tab1Page {
   timeRun = 0;
   speed = '0 km/h';
 
-  constructor(private backgroundGeolocation: BackgroundGeolocation) {}
+  constructor(private backgroundGeolocation: BackgroundGeolocation, private localNotifications: LocalNotifications) {}
 
   startBackgroundGeolocation() {
     const config: BackgroundGeolocationConfig = {
@@ -61,7 +61,7 @@ export class Tab1Page {
 
   ionViewDidEnter() {
     this.loadmap();
-    this.updateCount(false, 0);
+    this.updateCount(true, 10);
     this.startBackgroundGeolocation();
   }
 
@@ -117,6 +117,7 @@ export class Tab1Page {
         this.count += (final.getSeconds() < 10 ? '0' : '') + final.getSeconds();
         if (this.count === '00:00:00') {
           clearInterval(count);
+          this.endTraining();
         }
       } else {
         if (!this.addedPoly) {
@@ -163,5 +164,18 @@ export class Tab1Page {
   calcSpeed() {
     const s = Math.floor(this.distance / (this.timeRun / 60 / 60) * 100) / 100;
     this.speed = s + 'km/h';
+  }
+
+  endTraining() {
+    this.timeRun = 4729319;
+    this.localNotifications.schedule({
+      id: 1,
+      silent: false,
+      lockscreen: true,
+      title: 'Training ended',
+      text: 'You ran ' + this.distanceDisplay + ' in ' + Math.floor(this.timeRun / 3600) + ' hour '
+          + Math.floor((this.timeRun /  60) % 60) + ' minutes and ' + this.timeRun % 60 + ' secondes',
+      vibrate: true
+    });
   }
 }
