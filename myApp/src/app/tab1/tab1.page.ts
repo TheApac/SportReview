@@ -136,6 +136,9 @@ export class Tab1Page {
     if (isPause) {
       polyline.setStyle({color: 'green', fill: 'none', dashArray: '10, 20'});
     }
+    if (this.prevLat != null && this.prevLong != null) {
+      polyline.addLatLng([this.prevLat, this.prevLong]);
+    }
     polyline.addTo(this.map);
     this.polylines.push(polyline);
     this.addedPoly = true;
