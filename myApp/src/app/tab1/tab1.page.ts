@@ -15,6 +15,14 @@ export class Tab1Page {
   addedPoly = false;
   map;
   stop = false;
+  distance = 0;
+  distanceDisplay = '0 m';
+  prevLong = null;
+  prevLat = null;
+  p = 0.017453292519943295;    // Math.PI / 180
+  c = Math.cos;
+  timeRun = 0;
+  speed = '0 km/h';
 
   constructor(private backgroundGeolocation: BackgroundGeolocation) {}
 
@@ -33,6 +41,11 @@ export class Tab1Page {
           .on(BackgroundGeolocationEvents.location)
           .subscribe((location: BackgroundGeolocationResponse) => {
             this.polylines[this.polylines.length - 1].addLatLng([location.latitude, location.longitude]);
+            if (!this.stop) {
+              this.addDistance(location.latitude, location.longitude);
+            }
+            this.prevLat = location.latitude;
+            this.prevLong = location.longitude;
             // IMPORTANT:  You must execute the finish method here to inform the native plugin that you're finished,
             // and the background-task may be completed.  You must do this regardless if your operations are successful or not.
             // IF YOU DON'T, ios will CRASH YOUR APP for spending too much time in the background.
@@ -89,6 +102,8 @@ export class Tab1Page {
     }
     const count = setInterval(() => {
       if (!this.stop) {
+        this.timeRun++;
+        this.calcSpeed();
         if (!this.addedPoly) {
           this.addPolyline(false);
         }
@@ -124,5 +139,26 @@ export class Tab1Page {
     polyline.addTo(this.map);
     this.polylines.push(polyline);
     this.addedPoly = true;
+  }
+
+  addDistance(lat2: number, long2: number) {
+    if (this.prevLong != null && this.prevLat != null) {
+      const a = 0.5 - this.c((this.prevLat - lat2) * this.p) / 2 +
+          this.c(lat2 * this.p) * this.c((this.prevLat) * this.p) * (1 - this.c(((this.prevLong - long2) * this.p))) / 2;
+      const d = this.distance + ((12742 * Math.asin(Math.sqrt(a))));
+      if (d > 1) {
+        this.distance = Math.floor(d * 100) / 100;
+        this.distanceDisplay = this.distance + ' km';
+      } else {
+        this.distance = d * 1000;
+        this.distance = Math.floor(d * 1000);
+        this.distanceDisplay = this.distance + ' m';
+      }
+    }
+  }
+
+  calcSpeed() {
+    const s = Math.floor(this.distance / (this.timeRun / 60 / 60) * 100) / 100;
+    this.speed = s + 'km/h';
   }
 }

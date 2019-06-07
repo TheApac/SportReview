@@ -54,7 +54,6 @@ export class DatabaseService {
     loadTrackings() {
         return this.database.executeSql('SELECT * FROM tracking', []).then(data => {
             const trackings: Track[] = [];
-
             for (let i = 0; i < data.rows.length; i++) {
                 trackings.push({
                     id: data.rows.item(i).id,
