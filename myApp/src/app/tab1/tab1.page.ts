@@ -20,6 +20,7 @@ export class Tab1Page {
   distanceDisplay = '0 m';
   prevLong = null;
   prevLat = null;
+  countFunc = null;
   p = 0.017453292519943295;    // Math.PI / 180
   c = Math.cos;
   timeRun = 0;
@@ -63,7 +64,6 @@ export class Tab1Page {
 
   ionViewDidEnter() {
     this.loadmap();
-    this.updateCount(true, 10);
     this.startBackgroundGeolocation();
   }
 
@@ -102,7 +102,7 @@ export class Tab1Page {
     if (down) {
       final.setSeconds(final.getSeconds() + sec);
     }
-    const count = setInterval(() => {
+    this.countFunc = setInterval(() => {
       if (!this.stop) {
         this.timeRun++;
         this.calcSpeed();
@@ -118,7 +118,7 @@ export class Tab1Page {
         this.count += (final.getMinutes() < 10 ? '0' : '') + final.getMinutes() + ':';
         this.count += (final.getSeconds() < 10 ? '0' : '') + final.getSeconds();
         if (this.count === '00:00:00') {
-          clearInterval(count);
+          clearInterval(this.countFunc);
           this.endTraining();
         }
       } else {
@@ -171,11 +171,14 @@ export class Tab1Page {
   startActivity() {
     this.start = true;
     this.stop = false;
+    this.updateCount(false, 0);
   }
+
   stopActivity() {
-    clearInterval(count);
+    clearInterval(this.countFunc);
     this.start = false;
     this.stop = true;
+    this.count = '00:00:00';
   }
 
   endTraining() {
