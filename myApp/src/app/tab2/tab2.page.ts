@@ -7,6 +7,13 @@ import { Component } from '@angular/core';
 })
 export class Tab2Page {
 
+
+  speedTot = 0;
+  distanceTot = 0;
+  speedByWeek = [];
+  distanceByWeek = [];
+
+
   constructor() {}
 
 }

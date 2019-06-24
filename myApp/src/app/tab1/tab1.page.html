@@ -1,15 +1,27 @@
-<ion-header>
+<ion-header style="margin-bottom: 7px">
   <ion-toolbar color="primary">
-    <ion-title> Sport Review </ion-title>
+    <ion-title style="text-align: center"> Sport Review </ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
   <link href="https://unpkg.com/leaflet@1.1.0/dist/leaflet.css" rel="stylesheet">
   <div id="speedDistance" style="width:100%; height:10%;">
-    <div style="width: 30%; height:100%; border: solid black 1px">{{speed}}</div>
-    <div style="width: 40%"></div>
-    <div style="width: 30%; height:100%; border: solid black 1px">{{distanceDisplay}}</div>
+    <div class="mapResumeZone">
+      <div class="vertical-center">
+        {{speed}}
+      </div>
+    </div>
+      <div style="width: 30%; height: 100%">
+        <div class="vertical-center" style="height:100%;">
+          {{sport}}
+        </div>
+      </div>
+    <div class="mapResumeZone">
+      <div class="vertical-center">
+        {{distanceDisplay}}
+      </div>
+    </div>
   </div>
   <div id="map" style="width:100%; height:70%;"></div>
   <div style="width:100%; height:10%;">
@@ -19,11 +31,38 @@
 
 <ion-footer>
   <ion-toolbar>
+    <ion-segment color="primary">
+      <ion-segment-button value="Map">
+        Map
+      </ion-segment-button>
+      <ion-segment-button value="Altitude">
+        Altitude
+      </ion-segment-button>
+    </ion-segment>
+
     <ion-button
-            expand="block"
+            *ngIf="start"
+            style="width: 48%;"
             shape="round"
-            fill="outline"
             [disabled]="count == '00:00:00'"
-            (click)="pause()">{{stop ? "Resume" : "Pause"}}</ion-button>
+            (click)="pause()">
+      {{stop ? "Resume" : "Pause"}}
+    </ion-button>
+    <ion-button
+            *ngIf="start"
+            style="width: 48%;"
+            color="danger"
+            shape="round"
+            (click)="stopActivity()">
+      End
+    </ion-button>
+    <ion-button
+            *ngIf="start===false"
+            style="width: 99%"
+            color="secondary"
+            shape="round"
+            (click)="startActivity()">
+      Quick start
+    </ion-button>
   </ion-toolbar>
 </ion-footer>

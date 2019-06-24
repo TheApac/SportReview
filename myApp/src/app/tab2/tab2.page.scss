@@ -1,1 +1,38 @@
 
+.welcome-card ion-img {
+  max-height: 35vh;
+  overflow: hidden;
+}
+
+#count {
+  text-align: center;
+  font-size: 3em;
+}
+
+#speedDistance {
+  margin: 0 auto;
+}
+
+#speedDistance div {
+  display: inline-block;
+  text-align: center;
+}
+
+.mapResumeZone {
+  width: 100%;
+  height:100%;
+  display: block;
+  vertical-align: middle;
+  text-align: center;
+  border: solid black 1px;
+  border-radius: 20px;
+}
+
+.vertical-center {
+  margin: 0;
+  position: relative;
+  top: 50%;
+  -ms-transform: translateY(-50%);
+  transform: translateY(-50%);
+  font-size: larger;
+}

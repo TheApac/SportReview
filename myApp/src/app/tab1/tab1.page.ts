@@ -14,7 +14,8 @@ export class Tab1Page {
   count;
   addedPoly = false;
   map;
-  stop = false;
+  start = false;
+  stop = true;
   distance = 0;
   distanceDisplay = '0 m';
   prevLong = null;
@@ -23,6 +24,7 @@ export class Tab1Page {
   c = Math.cos;
   timeRun = 0;
   speed = '0 km/h';
+  sport = 'Vtt';
 
   constructor(private backgroundGeolocation: BackgroundGeolocation, private localNotifications: LocalNotifications) {}
 
@@ -163,7 +165,17 @@ export class Tab1Page {
 
   calcSpeed() {
     const s = Math.floor(this.distance / (this.timeRun / 60 / 60) * 100) / 100;
-    this.speed = s + 'km/h';
+    this.speed = s + ' km/h';
+  }
+
+  startActivity() {
+    this.start = true;
+    this.stop = false;
+  }
+  stopActivity() {
+    clearInterval(count);
+    this.start = false;
+    this.stop = true;
   }
 
   endTraining() {

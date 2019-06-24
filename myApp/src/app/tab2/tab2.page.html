@@ -1,9 +1,117 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-title>
-      Tab Two
-    </ion-title>
+<ion-header style="margin-bottom: 7px">
+  <ion-toolbar color="primary">
+    <ion-title style="text-align: center"> Sport Review </ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content></ion-content>
+<ion-content>
+  <ion-grid>
+    <ion-row>
+      <ion-col>
+        <div>
+          <ion-title style="text-align: center"> Speed </ion-title>
+        </div>
+      </ion-col>
+      <ion-col size="2">
+        <div>
+          <div class="vertical-center">
+          </div>
+        </div>
+      </ion-col>
+      <ion-col>
+        <div>
+          <ion-title style="text-align: center"> Distance tot </ion-title>
+        </div>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col>
+        <div class="mapResumeZone">
+          <div class="vertical-center" style="margin-bottom: 4px; margin-top: 2px">
+            {{speedTot}}
+          </div>
+        </div>
+      </ion-col>
+      <ion-col size="2">
+        <div>
+        </div>
+      </ion-col>
+      <ion-col>
+        <div class="mapResumeZone">
+          <div class="vertical-center" style="margin-bottom: 4px; margin-top: 2px">
+            {{distanceTot}}
+          </div>
+        </div>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+  <br/>
+  <ion-grid>
+    <ion-row>
+      <ion-col>
+        <div>
+          <ion-text style="text-align: center"> week </ion-text>
+        </div>
+      </ion-col>
+      <ion-col>
+        <div>
+          <ion-text style="text-align: center"> Sport </ion-text>
+        </div>
+      </ion-col>
+      <ion-col>
+        <div>
+          <ion-text style="text-align: center"> Speed </ion-text>
+        </div>
+      </ion-col>
+      <ion-col>
+        <div>
+          <ion-text style="text-align: center"> Distance tot </ion-text>
+        </div>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col>
+        <div>
+          <ion-text style="text-align: center"> week </ion-text>
+        </div>
+      </ion-col>
+      <ion-col>
+        <div>
+          <ion-text style="text-align: center"> Sport </ion-text>
+        </div>
+      </ion-col>
+      <ion-col>
+        <div>
+          {{speedTot}}
+        </div>
+      </ion-col>
+      <ion-col>
+        <div>
+          <ion-text style="text-align: center"> Distance tot </ion-text>
+        </div>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col>
+        <div class="mapResumeZone">
+          <div class="vertical-center" style="margin-bottom: 4px; margin-top: 2px">
+            {{speedTot}}
+          </div>
+        </div>
+      </ion-col>
+      <ion-col size="2">
+        <div>
+        </div>
+      </ion-col>
+      <ion-col>
+        <div class="mapResumeZone">
+          <div class="vertical-center" style="margin-bottom: 4px; margin-top: 2px">
+            {{distanceTot}}
+          </div>
+        </div>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+</ion-content>
