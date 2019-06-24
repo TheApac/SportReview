@@ -5,19 +5,43 @@
 </ion-header>
 
 <ion-content>
-  <ion-list>
-    <ion-item *ngFor="let track of trackings">
-      <ion-label>id : </ion-label>
-      <ion-input>{{track.id}}</ion-input>
 
-      <ion-label>positionId : </ion-label>
-      <ion-input>{{track.positionId}}</ion-input>
+  <ion-grid>
+    <ion-row>
+      <ion-col style="background-color: lightgrey;border: 1px solid;border-top-left-radius: 15px; text-align: center">
+        <div>
+          <ion-text style="text-align: center"> Longitude </ion-text>
+        </div>
+      </ion-col>
+      <ion-col style="background-color: lightgrey;border: 1px solid; text-align: center">
+        <div>
+          <ion-text style="text-align: center"> Latitude </ion-text>
+        </div>
+      </ion-col>
+      <ion-col style="background-color: lightgrey;border: 1px solid;border-top-right-radius: 15px; text-align: center">
+        <div>
+          <ion-text style="text-align: center"> Altitude </ion-text>
+        </div>
+      </ion-col>
+    </ion-row>
 
-      <ion-label>date : </ion-label>
-      <ion-input>{{track.date}}</ion-input>
+    <ion-row *ngFor="let track of trackings">
+      <ion-col style="border: 1px solid;">
+        <div>
+          {{track.id}}
+        </div>
+      </ion-col>
+      <ion-col style="border: 1px solid;">
+        <div>
+          {{track.positionId}}
+        </div>
+      </ion-col>
+      <ion-col style="border: 1px solid;">
+        <div>
+          {{track.trainingId}}
+        </div>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
 
-      <ion-label>trainingId : </ion-label>
-      <ion-input>{{track.trainingId}}</ion-input>
-    </ion-item>
-  </ion-list>
 </ion-content>

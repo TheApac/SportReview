@@ -49,66 +49,47 @@
   <br/>
   <ion-grid>
     <ion-row>
-      <ion-col>
+      <ion-col style="background-color: lightgrey;border: 1px solid;border-top-left-radius: 15px; text-align: center">
         <div>
           <ion-text style="text-align: center"> week </ion-text>
         </div>
       </ion-col>
-      <ion-col>
+      <ion-col style="background-color: lightgrey;border: 1px solid; text-align: center">
         <div>
           <ion-text style="text-align: center"> Sport </ion-text>
         </div>
       </ion-col>
-      <ion-col>
+      <ion-col style="background-color: lightgrey;border: 1px solid; text-align: center">
         <div>
           <ion-text style="text-align: center"> Speed </ion-text>
         </div>
       </ion-col>
-      <ion-col>
+      <ion-col style="background-color: lightgrey;border: 1px solid;border-top-right-radius: 15px; text-align: center">
         <div>
           <ion-text style="text-align: center"> Distance tot </ion-text>
         </div>
       </ion-col>
     </ion-row>
+
     <ion-row>
-      <ion-col>
+      <ion-col style="border: 1px solid;">
         <div>
-          <ion-text style="text-align: center"> week </ion-text>
+          12/07/19
         </div>
       </ion-col>
-      <ion-col>
+      <ion-col style="border: 1px solid;">
         <div>
-          <ion-text style="text-align: center"> Sport </ion-text>
+          Vtt
         </div>
       </ion-col>
-      <ion-col>
+      <ion-col style="border: 1px solid;">
         <div>
           {{speedTot}}
         </div>
       </ion-col>
-      <ion-col>
+      <ion-col style="border: 1px solid;">
         <div>
-          <ion-text style="text-align: center"> Distance tot </ion-text>
-        </div>
-      </ion-col>
-    </ion-row>
-    <ion-row>
-      <ion-col>
-        <div class="mapResumeZone">
-          <div class="vertical-center" style="margin-bottom: 4px; margin-top: 2px">
-            {{speedTot}}
-          </div>
-        </div>
-      </ion-col>
-      <ion-col size="2">
-        <div>
-        </div>
-      </ion-col>
-      <ion-col>
-        <div class="mapResumeZone">
-          <div class="vertical-center" style="margin-bottom: 4px; margin-top: 2px">
-            {{distanceTot}}
-          </div>
+          {{distanceTot}}
         </div>
       </ion-col>
     </ion-row>
