@@ -47,6 +47,11 @@ export class DatabaseService {
         return this.dbReady.asObservable();
     }
 
+    sendTrack(lat, long, altitude) {
+        this.database.executeSql('INSERT INTO `SportReview`.`Position` (`latitude`, `longitude`, `altitude`) VALUES' +
+            '(' + lat + ',' + long + ',' + altitude + ');');
+    }
+
     getTracks(): Observable<Track[]> {
         return this.trackings.asObservable();
     }

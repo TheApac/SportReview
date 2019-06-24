@@ -1,14 +1,15 @@
-import {Component, ElementRef, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, ElementRef, ViewChild} from '@angular/core';
 import leaflet from 'leaflet';
 import {BackgroundGeolocation, BackgroundGeolocationConfig, BackgroundGeolocationResponse,
   BackgroundGeolocationEvents} from '@ionic-native/background-geolocation/ngx';
 import { LocalNotifications } from '@ionic-native/local-notifications/ngx';
+import {DatabaseService} from '../services/database.service';
 @Component({
   selector: 'app-tab1',
   templateUrl: 'tab1.page.html',
   styleUrls: ['tab1.page.scss']
 })
-export class Tab1Page {
+export class Tab1Page implements AfterViewInit {
   @ViewChild('map') mapContainer: ElementRef;
   polylines = [];
   count;
@@ -21,13 +22,14 @@ export class Tab1Page {
   prevLong = null;
   prevLat = null;
   countFunc = null;
+  uploadToDb = false;
   p = 0.017453292519943295;    // Math.PI / 180
   c = Math.cos;
   timeRun = 0;
   speed = '0 km/h';
-  sport = 'Vtt';
+  sport = 'VTT';
 
-  constructor(private backgroundGeolocation: BackgroundGeolocation, private localNotifications: LocalNotifications) {}
+  constructor(private backgroundGeolocation: BackgroundGeolocation, private localNotifications: LocalNotifications, private db: DatabaseService) {}
 
   startBackgroundGeolocation() {
     const config: BackgroundGeolocationConfig = {
@@ -46,6 +48,9 @@ export class Tab1Page {
             this.polylines[this.polylines.length - 1].addLatLng([location.latitude, location.longitude]);
             if (!this.stop) {
               this.addDistance(location.latitude, location.longitude);
+            }
+            if (!this.stop && this.uploadToDb) {
+              this.db.sendTrack(location.latitude, location.longitude, location.altitude);
             }
             this.prevLat = location.latitude;
             this.prevLong = location.longitude;
@@ -191,6 +196,14 @@ export class Tab1Page {
       text: 'You ran ' + this.distanceDisplay + ' in ' + Math.floor(this.timeRun / 3600) + ' hour '
           + Math.floor((this.timeRun /  60) % 60) + ' minutes and ' + this.timeRun % 60 + ' secondes',
       vibrate: true
+    });
+  }
+
+  ngAfterViewInit() {
+    this.db.getDatabaseState().subscribe(rdy => {
+      if (rdy) {
+        this.uploadToDb = true;
+      }
     });
   }
 }
